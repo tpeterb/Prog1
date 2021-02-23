@@ -13,4 +13,5 @@ int main()
 	win.attach(img);
 	win.attach(t);
 	win.wait_for_button();
+	//A kép megjelenítéséhez kell a snowfall.jpg kép
 }

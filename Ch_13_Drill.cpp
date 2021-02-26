@@ -41,6 +41,6 @@ int main()
 			cool.move(100, 0);
 		}
 		cool.move(-800, 100);
-	}
+	} //5. feladat
 	win.wait_for_button();
-}
+} //A kód sikeres futtatásához szükségesek a Landscape.jpg és a dice.jpg állományok

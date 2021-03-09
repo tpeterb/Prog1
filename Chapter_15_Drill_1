@@ -1,0 +1,55 @@
+#include "Simple_window.h" // get access to our window library
+#include "Graph.h" // get access to our graphics library facilities
+
+double one(double x) 
+{
+	return 1;
+}
+
+double slope(double x) 
+{
+	return x / 2;
+}
+
+double square(double x) 
+{
+	return x * x;
+}
+
+double sloping_cos(double x)
+{
+	return slope(x) + cos(x);
+}
+
+int main()
+{
+	using namespace Graph_lib;
+	constexpr int xstart = 0, ystart = 0, xorig = 300, yorig = 300;
+	constexpr int xscale = 20, yscale = 20;
+	constexpr int xmin = -10, xmax = 11;
+	constexpr int numofpoints = 400;
+	Point p{ xstart, ystart };
+	Point orig{ xorig, yorig };
+	Simple_window win(p, 600, 600, "Function graphs"); //1. feladat
+	Axis x(Axis::x, orig, 400, 20, "1==20 pixels");
+	Axis y(Axis::y, orig, 400, 20, "1==20 pixels");
+	x.set_color(Color::red);
+	x.label.move(100, 0);
+	y.set_color(Color::red);
+	win.attach(x);
+	win.attach(y);
+	//Function f(one, -10, 11, orig, 400); //Kikommentelve újraskálázás miatt
+	//win.attach(f); //Kikommentelve újraskálázás miatt
+	Function g(one, xmin, xmax, orig, numofpoints, xscale, yscale);
+	win.attach(g);
+	Function h(slope, xmin, xmax, orig, numofpoints, xscale, yscale);
+	Text t(Point(95, 395), "x/2");
+	win.attach(h);
+	win.attach(t);
+	Function cos(cos, xmin, xmax, orig, numofpoints, xscale, yscale);
+	cos.set_color(Color::blue);
+	win.attach(cos);
+	Function j(sloping_cos, xmin, xmax, orig, numofpoints, xscale, yscale);
+	win.attach(j);
+	win.wait_for_button();
+}

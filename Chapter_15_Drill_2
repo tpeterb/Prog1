@@ -1,0 +1,146 @@
+#include "Simple_window.h" // get access to our window library
+#include "Graph.h" // get access to our graphics library facilities
+#include <iostream>
+#include <vector>
+
+class Bad_name {};
+
+class Bad_age {};
+
+struct Person
+{
+private:
+    //std::string name; //Kikommentelve a 9.-es feladat miatt
+    std::string first_name, second_name;
+    int age;
+public:
+    Person()
+    {
+        age = 0;
+        //name = ""; //Kikommentelve a 9.-es feladat miatt
+        first_name = "";
+        second_name = "";
+        /*if (age < 0 || age >= 150)
+        {
+            throw Bad_age{};
+        }
+        vector<char> v{ ';', ':', '"', '\'', '[', ']', '*', '&', '^', '%', '$', '#', '@', '!' };
+        for (auto e : v)
+        {
+            if (first_name.find(e) != std::string::npos || second_name.find(e) != std::string::npos)
+            {
+                throw Bad_name{};
+            }
+        }*/ //Erre a hibakezelésre itt nincs szükség
+    };
+    Person(std::string first, std::string second, int a) : first_name(first), second_name(second), age(a)
+    {
+        if (age >= 150 || age < 0) 
+        {
+            throw Bad_age{};
+        }
+        for (auto e : first_name)
+        {
+            if(!isalpha(e)) 
+            {
+                throw Bad_name{};
+            }
+        }
+        for (auto e : second_name)
+        {
+            if(!isalpha(e)) 
+            {
+                throw Bad_name{};
+            }
+        }
+    };
+    friend ostream& operator<<(ostream& os, Person& p);
+    friend istream& operator>>(istream& is, Person& p);
+    std::string get_name() const
+    {
+        return first_name + " " + second_name;
+        //return this->name; //Kikommentelve a 9.-es feladat miatt
+    }
+    std::string get_first_name() const 
+    {
+        return first_name;
+    }
+    std::string get_second_name() const
+    {
+        return second_name;
+    }
+    int get_age() const
+    {
+        return this->age;
+    }
+};
+
+ostream& operator<<(ostream& os, Person& p)
+{
+    cout << "\nFirst name: " << p.get_first_name() << "\nSecond name: "<<p.get_second_name()<<" \nAge: " << p.get_age() << endl;
+    return os;
+}
+
+istream& operator>>(istream& is, Person& p)
+{
+    cin >> p.first_name >> p.second_name >> p.age;
+    if (p.get_first_name() == "")
+    {
+        throw Bad_name{};
+    }
+    for (auto e : p.get_first_name())
+    {
+        if (!isalpha(e))
+        {
+            throw Bad_name{};
+        }
+    }
+    if(p.get_second_name() == "") 
+    {
+        throw Bad_name{};
+    }
+    for (auto e : p.get_second_name())
+    {
+        if (!isalpha(e))
+        {
+            throw Bad_name{};
+        }
+    }
+    if (p.get_age() < 0 || p.get_age() >= 150)
+    {
+        throw Bad_age{};
+    }
+    return is;
+}
+
+int main()
+try{
+    //Person p;
+    //p.name = "Goofy";
+    //p.age = 63;
+    //cout << "Name: " << p.name << " Age: " << p.age << endl;
+    //Előző 4 sor a name és age tagok priváttá átírása miatt kikommentelve
+    Person person;
+    cin >> person;
+    cout << person;
+    Person p2;
+    vector<Person> people;
+    int i = 0; //5 Person típusú objektumot fog bekérni
+    while(i < 5) 
+    {
+        cin >> p2;
+        people.push_back(p2);
+        i++;
+    }
+    for (auto e : people)
+    {
+        cout << e;
+    }
+    return 0;
+} catch(Bad_age) 
+{
+    cout << "Bad age!" << endl;
+} catch(Bad_name) 
+{
+    cout << "Bad name!" << endl;
+}

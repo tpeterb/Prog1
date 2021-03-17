@@ -1,0 +1,128 @@
+#include <iostream>
+
+class A 
+{
+public:
+    virtual void pvf() = 0;
+};
+
+class B1 : public A
+{
+public:
+    void pvf() override 
+    {
+        std::cout << "B1:pvf\n" << std::endl;
+    };
+    virtual void vf() 
+    {
+        std::cout << "B1::vf\n";
+    }
+    void f() 
+    {
+        std::cout << "B1::f\n";
+    }
+};
+
+class D1 : public B1 
+{
+public:
+    void vf() override 
+    {
+        std::cout << "D1::vf\n";
+    }
+    void f() 
+    {
+        std::cout << "D1::f\n";
+    }
+};
+
+class D2 : public D1 
+{
+public:
+    void pvf() override 
+    {
+        std::cout << "D2::pvf\n";
+    }
+};
+
+class B2 
+{
+public:
+    virtual void pvf() = 0;
+};
+
+class D21 : public B2
+{
+public:
+    std::string s;
+    void pvf() override 
+    {
+        std::cout << s << std::endl;
+    }
+};
+
+class D22 : public B2 
+{
+public:
+    int a;
+    void pvf() override 
+    {
+        std::cout << a << std::endl;
+    }
+};
+
+void f(B2& b2) //7. feladat
+{
+    b2.pvf();
+}
+
+int main()
+{
+    std::cout << "1. feladat:\n" << std::endl;
+    B1 b1; //1. f.
+    b1.vf(); //1. f.
+    b1.f(); //1. f.
+    std::cout << "2. feladat:\n" << std::endl;
+    D1 d1; //2. f.
+    d1.vf(); //2. f.
+    d1.f(); //2. f.
+    std::cout << "3. feladat:\n" << std::endl;
+    B1& bp = d1; //3. f.
+    bp.vf(); //3. f.
+    bp.f(); //3. f.
+    std::cout << "4. feladat:\n" << std::endl;
+    B1 b11; //4. f.
+    b11.vf(); //4. f.
+    b11.f(); //4. f.
+    D1 d11; //4. f.
+    d11.vf(); //4. f.
+    d11.f(); //4. f.
+    B1& bp2 = d11; //4. f.
+    bp2.f(); //4. f.
+    bp2.vf(); //4. f.
+    std::cout << "5. feladat:\n" << std::endl;
+    B1 bvirtual;
+    bvirtual.vf();
+    bvirtual.f();
+    D1 dvirtual;
+    dvirtual.vf();
+    dvirtual.f();
+    B1& bpvirtual = dvirtual;
+    bpvirtual.vf();
+    bpvirtual.f();
+    //6. feladat:
+    std::cout << "6. feladat:\n" << std::endl;
+    D2 d2;
+    d2.vf();
+    d2.f();
+    d2.pvf();
+    //7. feladat:
+    std::cout << "7. feladat:\n" << std::endl;
+    D21 d21;
+    D22 d22;
+    d21.s = "string";
+    d22.a = 1;
+    f(d21);
+    f(d22);
+    return 0;
+}

@@ -1,0 +1,141 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+template<typename T>
+std::vector<T>& Split(std::string s, const char c, std::vector<T>& v) 
+{
+    v.clear();
+    int a = 0;
+    for(int i = 0; i < s.size(); i) 
+    {
+        if (s[i] == c)
+        {
+            v.push_back((T)s.substr(a, i - a).c_str());
+            a = i + 2;
+            // 123, 21, 31456, 4
+        }
+    }
+    return v;
+}
+
+template<typename T>
+struct S 
+{
+private:
+    T val;
+public:
+    //T val; //Kikommentelve a 7. feladat miatt, val-t priváttá kell tenni
+    S() {}
+    S(T v): val(v) {}
+
+    T& get();
+    T& get() const;
+    void set(T va);
+    void operator=(const T&);
+};
+
+template<typename T>
+T& S<T>::get() 
+{
+    return val;
+}
+
+template<typename T>
+T& S<T>::get() const 
+{
+    return val;
+}
+
+template<typename T>
+void S<T>::set(T va) 
+{
+    val = va;
+}
+
+template<typename T>
+void S<T>::operator=(const T& t) 
+{
+    val = t;
+}
+
+template<typename T>
+void read_val(T& v) 
+{
+    std::cin >> v;
+}
+
+template<typename T>
+std::istream& operator>>(std::istream& is, std::vector<T> &v) //szóközzel elválasztott formátum!
+{
+    v.clear();
+    T temp;
+    while(std::cin>>temp) 
+    {
+        v.push_back(temp);
+    }
+    return is;
+}
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, std::vector<T> &v) 
+{
+    std::cout << "{ ";
+    for (int i = 0; i < v.size(); i++)
+    {
+        std::cout << v[i];
+        if(i != v.size() - 1) 
+        {
+            std::cout << ", ";
+        } else 
+        {
+            std::cout << " ";
+        }
+    }
+    std::cout << "}" << std::endl;
+    return os;
+}
+
+int main()
+{
+    //3. feladat:   
+    S<int> i(1);
+    S<char> c('f');
+    S<double> d(3.14);
+    S<std::string> s("Heyho!");
+    S<std::vector<int>> v({1, 2, 3, 4, 5});
+
+    //4. feladat: Kikommentelve a 7-es feladat miatt, mert val-t priváttá kellett tenni
+    /*std::cout << i.val<<std::endl;
+    std::cout << c.val << std::endl;
+    std::cout << d.val << std::endl;
+    std::cout << s.val << std::endl;
+    for (int i = 0; i < v.val.size(); i++)
+    {
+        std::cout << v.val[i] << ' ';
+    }
+    std::cout << std::endl;*/
+
+    //8. feladat:
+    std::cout << i.get() << std::endl;
+    std::cout << c.get() << std::endl;
+    std::cout << d.get() << std::endl;
+    std::cout << s.get() << std::endl;
+    for (int i = 0; i < v.get().size(); i++)
+    {
+        std::cout << v.get()[i] << ' ';
+    }
+    std::cout << std::endl;
+    
+    //13. feladat:
+    read_val(i.get());
+    read_val(c.get());
+    read_val(d.get());
+    read_val(s.get());
+
+    //14. feladat:
+    std::cout << v.get();
+    std::cin >> v.get();
+    std::cout << v.get();
+    return 0;
+}

@@ -48,7 +48,7 @@ int main()
         
     //7. feladat:
     copy2(arr, arr+10, v.begin());
-    copy2(l.begin(), l.end(), v.begin());
+    copy2(l.begin(), l.end(), arr);
 
     //8. feladat:
     std::vector<int>::iterator it = std::find(v.begin(), v.end(), 3);

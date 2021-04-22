@@ -1,0 +1,212 @@
+#include <iostream>
+#include <vector>
+#include <list>
+#include <algorithm>
+#include <fstream>
+#include <string>
+
+struct Item 
+{
+    std::string name;
+    int iid;
+    double value;
+    Item() 
+    {
+        name = "";
+        iid = 0;
+        value = 0;
+    }
+    Item(std::string nm, int i, double val) : name(nm), iid(i), value(val) {}
+};
+
+void print(std::vector<Item>& v)
+{
+    for(std::vector<Item>::iterator it = v.begin(); it != v.end(); it++) 
+    {
+        std::cout << (*it).name << ' ' << (*it).iid << ' ' << (*it).value << std::endl;
+    }
+}
+
+void printl(std::list<Item>& l) 
+{
+    for (std::list<Item>::iterator it = l.begin(); it != l.end(); it++)
+    {
+        std::cout << (*it).name << ' ' << (*it).iid << ' ' << (*it).value << std::endl;
+    }
+}
+
+std::vector<Item>& erase2(std::vector<Item>& v, std::string name)
+{
+    for(std::vector<Item>::iterator it = v.begin(); it != v.end(); it++) 
+    {
+        if((*it).name == name) 
+        {
+            v.erase(it);
+            return v;
+        }
+    }
+}
+
+std::vector<Item>& erase2(std::vector<Item>& v, int id)
+{
+    for (std::vector<Item>::iterator it = v.begin(); it != v.end(); it++)
+    {
+        if ((*it).iid == id)
+        {
+            v.erase(it);
+            return v;
+        }
+    }
+}
+
+/*std::vector<Item>& erase2(std::vector<Item>& v, double val)
+{
+    for (std::vector<Item>::iterator it = v.begin(); it != v.end(); it++)
+    {
+        if ((*it).value == val)
+        {
+            v.erase(it);
+            return v;
+        }
+    }
+}*/
+
+int main()
+{
+    //1. feladat:
+    std::cout << "1. feladat:\n";
+    std::string s;
+    int temp = 0;
+    double d = 0;
+    Item t;
+    std::vector<Item> vi;
+    std::ifstream fin("stuff.txt");
+    while (fin >> s >> temp >> d) 
+    {
+        t.name = s;
+        t.iid = temp;
+        t.value = d;
+        vi.push_back(t);
+    }
+    fin.close();
+    print(vi);
+
+    //2. feladat:
+    std::cout << "\n2. feladat:\n";
+    std::sort(vi.begin(), vi.end(), [](Item i1, Item i2) { return i1.name < i2.name; });
+    print(vi);
+
+    //3. feladat:
+    std::cout << "\n3. feladat:\n";
+    std::sort(vi.begin(), vi.end(), [](Item i1, Item i2) { return i1.iid < i2.iid; });
+    print(vi);
+
+    //4. feladat:
+    std::cout << "\n4. feladat:\n";
+    std::sort(vi.begin(), vi.end(), [](Item i1, Item i2) { return i1.value > i2.value; });
+    print(vi);
+
+    //5. feladat:
+    std::cout << "\n5. feladat:\n";
+    vi.insert(vi.end(), Item{"horse shoe", 99, 12.34});
+    vi.insert(vi.end(), Item{"Canon S400", 9988, 499.95});
+    print(vi);
+
+    //6. feladat:
+    std::cout << "\n6. feladat:\n";
+    erase2(vi, "Csesze");
+    erase2(vi, "Tea");
+    print(vi);
+
+    //7. feladat:
+    std::cout << "\n7. feladat:\n";
+    erase2(vi, 2);
+    erase2(vi, 5);
+    print(vi);
+
+    //8. feladat:
+    std::list<Item> l;
+    std::cout << "\n8. feladat:\n";
+    fin.open("stuff.txt");
+    while (fin >> s >> temp >> d)
+    {
+        t.name = s;
+        t.iid = temp;
+        t.value = d;
+        l.push_back(t);
+    }
+    fin.close();
+    printl(l);
+
+    /*--------------------------------*/
+
+    std::cout << std::endl;
+    l.sort([](Item i1, Item i2) { return i1.name < i2.name; });
+    printl(l);
+
+    /*------------------------------------*/
+
+    std::cout << std::endl;
+    l.sort([](Item i1, Item i2) { return i1.iid < i2.iid; });
+    printl(l);
+
+    /*-------------------------------------*/
+
+    std::cout << std::endl;
+    l.sort([](Item i1, Item i2) { return i1.value > i2.value; });
+    printl(l);
+
+    /*---------------------------------------*/
+
+    std::cout << std::endl;
+    l.insert(l.end(), Item{ "horse shoe", 99, 12.34 });
+    l.insert(l.end(), Item{ "Canon S400", 9988, 499.95 });
+    printl(l);
+
+    /*----------------------------------*/
+
+    std::cout << std::endl;
+    std::list<Item>::iterator it1 = l.begin();
+    std::list<Item>::iterator it2 = l.begin();
+    for (it1; it1 != l.end(); it1++)
+    {
+        if((*it1).name == "Kerekasztal") 
+        {
+            break;
+        }
+    }
+    for (it2; it2 != l.end(); it2++)
+    {
+        if ((*it2).name == "Szamitogep")
+        {
+            break;
+        }
+    }
+    l.erase(it1, std::next(it1));
+    l.erase(it2, std::next(it2));
+    printl(l);
+
+    /*-------------------------*/
+
+    std::cout << std::endl;
+    it1 = it2 = l.begin();
+    for (it1; it1 != l.end(); it1++)
+    {
+        if ((*it1).iid == 10)
+        {
+            break;
+        }
+    }
+    for (it2; it2 != l.end(); it2++)
+    {
+        if ((*it2).iid == 2)
+        {
+            break;
+        }
+    }
+    l.erase(it1, std::next(it1));
+    l.erase(it2, std::next(it2));
+    printl(l);
+
+    return 0;
+}

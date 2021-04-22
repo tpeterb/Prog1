@@ -1,0 +1,102 @@
+#include <iostream>
+#include <map>
+#include <algorithm>
+
+void read(std::map<std::string, int>& m) 
+{
+    std::pair<std::string, int> p;
+    std::map<std::string, int>::iterator it = m.begin();
+    while(std::cin >> p.first >> p.second) 
+    {
+        m.insert(it, p);
+    }
+}
+
+void write(std::map<std::string, int> m)
+{
+    for (std::map<std::string, int>::iterator it = m.begin(); it != m.end(); it++)
+    {
+        std::cout << (*it).first << ' ' << (*it).second << std::endl;
+    }
+}
+
+void write2(std::map<int, std::string> m)
+{
+    for (std::map<int, std::string>::iterator it = m.begin(); it != m.end(); it++)
+    {
+        std::cout << (*it).first << ' ' << (*it).second << std::endl;
+    }
+}
+
+int sum(std::map<std::string, int> m)
+{
+    int sum = 0;
+    for (std::map<std::string, int>::iterator it = m.begin(); it != m.end(); it++)
+    {
+        sum += (*it).second;
+    }
+    return sum;
+}
+
+int main()
+{
+    //1. feladat:
+
+    std::map<std::string, int> msi;
+
+    //2. feladat:
+
+    std::string s = "abcdefghij";
+    std::map<std::string, int>::iterator it = msi.begin();
+    for (int i = 1; i < 11; i++)
+    {
+        msi.insert(it, std::pair<std::string, int>(s.substr(0, i), i));
+        //it++;
+    }
+
+    //3. feladat:
+
+    std::cout << "3. feladat:\n";
+    write(msi);
+
+    //4. feladat:
+
+    msi.erase(msi.begin(), msi.end());
+
+    //5. feladat:
+
+    //read(msi); //teszt
+
+    //6. feladat:
+
+    read(msi);
+
+    //7. feladat:
+
+    std::cout << "7. feladat:\n";
+    write(msi);
+
+    //8. feladat:
+
+    std::cout << "8. feladat:\n";
+    std::cout << sum(msi) << std::endl;
+
+    //9. feladat:
+
+    std::map<int, std::string> mis;
+
+    //10. feladat:
+
+    std::map<int, std::string>::iterator itis = mis.begin();
+    for (it = msi.begin(); it != msi.end(); it++)
+    {
+        mis.insert(itis, std::pair<int, std::string>((*it).second, (*it).first));
+    }
+
+    //11. feladat:
+
+    std::cout << "11. feladat:\n";
+    write2(mis);
+
+    return 0;
+}

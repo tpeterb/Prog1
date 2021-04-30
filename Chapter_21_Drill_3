@@ -1,0 +1,116 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <fstream>
+
+void f(int i) 
+{
+    std::cout << "\n" << i << ". feladat:\n";
+}
+
+template<typename T>
+T sum(std::vector<T> v) 
+{
+    T s = 0;
+    for (int i = 0; i < v.size(); i++)
+    {
+        s += v[i];
+    }
+    return s;
+}
+
+template<typename T>
+void print(std::vector<T> v) 
+{
+    for (int i = 0; i < v.size(); i++)
+    {
+        std::cout << v[i] << std::endl;
+    }
+}
+
+template<typename T>
+double mean(std::vector<T> v) 
+{
+    return sum(v) / v.size();
+}
+
+int main()
+{
+    //1. feladat:
+
+    f(1);
+    std::vector<double> vd;
+    double temp = 0;
+    std::ifstream fin("adatok.txt");
+    while(fin >> temp) 
+    {
+        vd.push_back(temp);
+    }
+
+    //2. feladat:
+
+    std::vector<double>::iterator it = vd.begin();
+    for (it = vd.begin(); it != vd.end(); it++)
+    {
+        std::cout << *it << std::endl;
+    }
+
+    //3. feladat:
+
+    std::vector<int> vi;
+    for (it = vd.begin(); it != vd.end(); it++)
+    {
+        vi.push_back((*it));
+    }
+
+    //4. feladat:
+
+    f(4);
+    std::vector<int>::iterator iit = vi.begin();
+    for (it = vd.begin(), iit; it != vd.end() && iit != vi.end(); it++, iit++)
+    {
+        std::cout << (*it) << ' ' << (*iit) << std::endl;
+    }
+
+    //5. feladat:
+
+    f(5);
+    std::cout << sum(vd);
+
+    //6. feladat:
+
+    f(6);
+    std::cout << sum(vd) - sum(vi);
+
+    //7. feladat:
+
+    f(7);
+    std::reverse(vd.begin(), vd.end());
+    print(vd);
+
+    //8. feladat:
+
+    f(8);
+    std::cout << mean(vd);
+
+    //9. feladat:
+
+    f(9);
+    std::vector<double> vd2;
+    for (it = vd.begin(); it != vd.end(); it++)
+    {
+        if ((*it) < mean(vd))
+        {
+            vd2.push_back(*it);
+        }
+    }
+    print(vd2);
+
+    //10. feladat:
+
+    f(10);
+    std::sort(vd.begin(), vd.end());
+    print(vd);
+
+    return 0;
+}
